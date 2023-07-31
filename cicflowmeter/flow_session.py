@@ -130,7 +130,8 @@ class FlowSession(DefaultSession):
 
                     del self.flows[k]
             except Exception as e:
-                print("Exception in garbage_collect: ", e)
+                # print("Exception in garbage_collect: ", e)
+                pass
         if not self.url_model:
             # print("Garbage Collection Finished. Flows = {}".format(len(self.flows)))
             # flow_list = list(self.flows.values())
