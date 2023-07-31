@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 
 from Autoencoder.one_predict.create_data import create_data

@@ -1,13 +1,11 @@
-import pandas as pd
-import numpy as np
-import tensorflow as tf
-
-import matplotlib.pyplot as plt
-import seaborn as sns
-import random as rn
-from sklearn.preprocessing import MinMaxScaler
 import pickle
+import random as rn
+
+import numpy as np
+import pandas as pd
+import tensorflow as tf
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
 
 
 # For training the autoencoder for detect either a anomaly or normal data
@@ -107,6 +105,3 @@ def process_dataset(data_path):
     X_validate.columns = X_validate.columns.astype(str)
 
     return X_train, y_train, X_validate, y_validate, X_test, y_test
-
-
-

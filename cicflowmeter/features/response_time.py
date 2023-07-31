@@ -25,8 +25,8 @@ class ResponseTime:
         temp_direction = None
         for packet, direction in self.feature.packets:
             if (
-                temp_direction == PacketDirection.FORWARD
-                and direction == PacketDirection.REVERSE
+                    temp_direction == PacketDirection.FORWARD
+                    and direction == PacketDirection.REVERSE
             ):
                 diff = packet.time - temp_packet.time
                 time_diff.append(float(diff))

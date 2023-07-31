@@ -1,13 +1,6 @@
-import pandas as pd
-import numpy as np
-import tensorflow as tf
-
-import matplotlib.pyplot as plt
-import random as rn
 import pickle
 
-from Autoencoder.train_autoencoder.predict_auto import calculate_z_score
-
+import pandas as pd
 
 
 # def create_data(csv_line):

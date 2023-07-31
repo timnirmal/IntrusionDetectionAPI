@@ -1,22 +1,12 @@
-import pandas as pd
-import numpy as np
-import tensorflow as tf
+import pickle
 
 import matplotlib.pyplot as plt
-import seaborn as sns
-import random as rn
-
-from sklearn import svm
-from sklearn.metrics import classification_report, accuracy_score
-from sklearn.preprocessing import MinMaxScaler
-import pickle
-from sklearn.model_selection import train_test_split
-from datetime import datetime
+import numpy as np
+import pandas as pd
 from sklearn.decomposition import PCA
+from sklearn.metrics import classification_report, accuracy_score
 
-from Autoencoder.train_autoencoder.prepare_datasets import process_dataset
-from Autoencoder.train_autoencoder.autoencoder import autoenocder_model, load_data, save_data, plot_auto_train, \
-    train_autoencoder
+from Autoencoder.train_autoencoder.autoencoder import load_data
 
 
 def plot_2D(X_test):
@@ -178,7 +168,6 @@ if __name__ == '__main__':
     # Check the model performance
     print(classification_report(y_test, prediction))
 
-
     # Get the scores for the testing dataset
     score = ocsvm_model.score_samples(X_test)
     # Check the score for 2% of outliers
@@ -188,7 +177,6 @@ if __name__ == '__main__':
     customized_prediction = [1 if i < score_threshold else 0 for i in score]
     print(classification_report(y_test, customized_prediction))
     accuracy = accuracy_score(y_test, customized_prediction)
-
 
     # # Get the scores for the testing dataset
     # score = ocsvm_model.score_samples(X_test)

@@ -1,11 +1,11 @@
 import os
+import threading
+import time
 
+import pandas as pd
 import psutil
 
 from cicflowmeter.sniffer import create_sniffer
-import threading
-import time
-import pandas as pd
 
 
 def read_flow_csv(file_path):
@@ -25,7 +25,6 @@ def read_flow_csv(file_path):
 
 
 def get_interfaces():
-    import netifaces
     addrs = psutil.net_if_addrs()
     return addrs.keys()
 

@@ -139,6 +139,7 @@ class FlowSession(DefaultSession):
             #     print(item.get_data())
             pass
 
+
 def generate_session_class(output_mode, output_file, url_model):
     return type(
         "NewFlowSession",

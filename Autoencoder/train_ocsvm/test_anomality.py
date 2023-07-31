@@ -1,15 +1,16 @@
 # Synthetic dataset
-from sklearn.datasets import make_classification
-# Data processing
-import pandas as pd
-import numpy as np
 from collections import Counter
+
 # Visualization
 import matplotlib.pyplot as plt
+import numpy as np
+# Data processing
+import pandas as pd
+from sklearn.datasets import make_classification
+from sklearn.metrics import classification_report
+from sklearn.model_selection import train_test_split
 # Model and performance
 from sklearn.svm import OneClassSVM
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report
 
 # Create an imbalanced dataset
 X, y = make_classification(n_samples=100000, n_features=2, n_informative=2,
@@ -39,8 +40,6 @@ print(y_train)
 # label count in X_train
 unique, counts = np.unique(y_train, return_counts=True)
 print("label count in X_train", dict(zip(unique, counts)))
-
-
 
 # Train the one class support vector machine (SVM) model
 one_class_svm = OneClassSVM(nu=0.01, kernel='rbf', gamma='auto').fit(X_train)

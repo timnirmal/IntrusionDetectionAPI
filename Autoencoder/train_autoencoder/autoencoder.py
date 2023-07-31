@@ -1,19 +1,12 @@
-import pandas as pd
+from datetime import datetime
+
+import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 
-import matplotlib.pyplot as plt
-import seaborn as sns
-import random as rn
-from sklearn.preprocessing import MinMaxScaler
-import pickle
-from sklearn.model_selection import train_test_split
-from datetime import datetime
-
-from Autoencoder.train_autoencoder.prepare_datasets import process_dataset
-
 BATCH_SIZE = 256
 EPOCHS = 100
+
 
 def callback_set(autoencoder):
     # current date and time
@@ -51,10 +44,11 @@ def callback_set(autoencoder):
 
     return cb
 
+
 def autoenocder_model(input_dim):
     autoencoder = tf.keras.models.Sequential([
         # deconstruct / encode
-        tf.keras.layers.Dense(input_dim, activation='elu', input_shape=(input_dim, )),
+        tf.keras.layers.Dense(input_dim, activation='elu', input_shape=(input_dim,)),
         tf.keras.layers.Dense(16, activation='elu'),
         tf.keras.layers.Dense(8, activation='elu'),
         tf.keras.layers.Dense(4, activation='elu'),
@@ -74,8 +68,8 @@ def autoenocder_model(input_dim):
 
     return autoencoder
 
-def train_autoencoder(autoencoder, X_train, X_validate):
 
+def train_autoencoder(autoencoder, X_train, X_validate):
     auto_history = autoencoder.fit(
         X_train, X_train,
         shuffle=True,
@@ -138,11 +132,4 @@ def load_data():
         X_test = np.load(data_path + '\X_test.npy')
         y_test = np.load(data_path + '\y_test.npy')
 
-
     return X_train, y_train, X_validate, y_validate, X_test, y_test
-
-
-
-
-
-

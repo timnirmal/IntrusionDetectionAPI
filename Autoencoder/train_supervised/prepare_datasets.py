@@ -1,13 +1,10 @@
-import pandas as pd
-import numpy as np
-import tensorflow as tf
-
-import matplotlib.pyplot as plt
-import seaborn as sns
-import random as rn
-from sklearn.preprocessing import MinMaxScaler
 import pickle
-from sklearn.model_selection import train_test_split
+import random as rn
+
+import numpy as np
+import pandas as pd
+import tensorflow as tf
+from sklearn.preprocessing import MinMaxScaler
 
 
 # For training the autoencoder for detect either a anomaly or normal data
@@ -130,8 +127,3 @@ def equal_fraction_of_data(df):
 
     equal_fraction_data = df.groupby("Label").apply(lambda x: x.sample(frac=n, random_state=random_state))
     return equal_fraction_data
-
-
-
-
-

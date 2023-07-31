@@ -1,7 +1,6 @@
 import pandas as pd
 from pandas.errors import EmptyDataError
 
-from Autoencoder.one_predict.create_data import create_data
 # from Autoencoder.one_predict.predict_autoencoder import predict_autoencoder
 #
 # df = pd.read_csv("flow.csv")

@@ -1,21 +1,19 @@
-import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
-from sklearn.preprocessing import StandardScaler
-from sklearn.pipeline import Pipeline
-from sklearn.decomposition import PCA
-from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
-from sklearn.svm import SVC
-from sklearn.linear_model import LogisticRegression
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
-import tensorflow as tf
-
-import matplotlib.pyplot as plt
-import seaborn as sns
 import random as rn
 
-from Autoencoder.train_supervised.prepare_datasets import process_dataset, process_normal_attack_dataset
+import matplotlib.pyplot as plt
+import numpy as np
+import tensorflow as tf
+from sklearn.decomposition import PCA
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
+
+from Autoencoder.train_supervised.prepare_datasets import process_dataset
 
 RANDOM_SEED = 42
 
@@ -82,7 +80,6 @@ if __name__ == '__main__':
 
     pickle.dump(best_model, open('best_model.pkl', 'wb'))
 
-
     # Make predictions on the test set
     y_pred = best_model.predict(X_test)
 
@@ -112,7 +109,6 @@ if __name__ == '__main__':
 
     sns.heatmap(cm, annot=True)
     plt.show()
-
 
 #
 # # Assuming your dataframe is named 'df', and the target variable is labeled 'target'.

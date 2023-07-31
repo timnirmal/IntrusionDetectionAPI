@@ -219,8 +219,8 @@ class Flow:
 
         if "TCP" in packet:
             if (
-                direction == PacketDirection.FORWARD
-                and self.init_window_size[direction] == 0
+                    direction == PacketDirection.FORWARD
+                    and self.init_window_size[direction] == 0
             ):
                 self.init_window_size[direction] = packet["TCP"].window
             elif direction == PacketDirection.REVERSE:
@@ -281,7 +281,7 @@ class Flow:
                 self.forward_bulk_size_tmp = payload_size
             else:
                 if (
-                    packet.time - self.forward_bulk_last_timestamp
+                        packet.time - self.forward_bulk_last_timestamp
                 ) > constants.CLUMP_TIMEOUT:
                     self.forward_bulk_start_tmp = packet.time
                     self.forward_bulk_last_timestamp = packet.time
@@ -295,13 +295,13 @@ class Flow:
                         self.forward_bulk_packet_count += self.forward_bulk_count_tmp
                         self.forward_bulk_size += self.forward_bulk_size_tmp
                         self.forward_bulk_duration += (
-                            packet.time - self.forward_bulk_start_tmp
+                                packet.time - self.forward_bulk_start_tmp
                         )
                     elif self.forward_bulk_count_tmp > constants.BULK_BOUND:
                         self.forward_bulk_packet_count += 1
                         self.forward_bulk_size += payload_size
                         self.forward_bulk_duration += (
-                            packet.time - self.forward_bulk_last_timestamp
+                                packet.time - self.forward_bulk_last_timestamp
                         )
                     self.forward_bulk_last_timestamp = packet.time
         else:
@@ -314,7 +314,7 @@ class Flow:
                 self.backward_bulk_size_tmp = payload_size
             else:
                 if (
-                    packet.time - self.backward_bulk_last_timestamp
+                        packet.time - self.backward_bulk_last_timestamp
                 ) > constants.CLUMP_TIMEOUT:
                     self.backward_bulk_start_tmp = packet.time
                     self.backward_bulk_last_timestamp = packet.time
@@ -328,13 +328,13 @@ class Flow:
                         self.backward_bulk_packet_count += self.backward_bulk_count_tmp
                         self.backward_bulk_size += self.backward_bulk_size_tmp
                         self.backward_bulk_duration += (
-                            packet.time - self.backward_bulk_start_tmp
+                                packet.time - self.backward_bulk_start_tmp
                         )
                     elif self.backward_bulk_count_tmp > constants.BULK_BOUND:
                         self.backward_bulk_packet_count += 1
                         self.backward_bulk_size += payload_size
                         self.backward_bulk_duration += (
-                            packet.time - self.backward_bulk_last_timestamp
+                                packet.time - self.backward_bulk_last_timestamp
                         )
                     self.backward_bulk_last_timestamp = packet.time
 

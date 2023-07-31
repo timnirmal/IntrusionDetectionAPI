@@ -76,17 +76,15 @@
 #
 #
 # # uvicorn main:app --reload
+import asyncio
+import glob
 import os
-from datetime import datetime
+from random import choice, randint
 
 import pandas as pd
 import psutil
 from fastapi import FastAPI, WebSocket
-from random import choice, randint
-import asyncio
-import glob
 from loguru import logger
-
 from pandas.errors import EmptyDataError
 
 from Autoencoder.one_predict.create_data import create_data
@@ -278,7 +276,26 @@ def push_anomalies():
                 logger.info(df_diff)
                 df_diff = df_diff.tail(1)
                 # df_diff.to_csv("flow_send_1.csv")
-                columns_to_keep = ["Flow Duration","Total Fwd Packets","Total Backward Packets","Total Length of Fwd Packets","Total Length of Bwd Packets","Fwd Packet Length Max","Fwd Packet Length Min","Fwd Packet Length Mean","Fwd Packet Length Std","Bwd Packet Length Max","Bwd Packet Length Min","Bwd Packet Length Mean","Bwd Packet Length Std","Flow Bytes/s","Flow Packets/s","Flow IAT Mean","Flow IAT Std","Flow IAT Max","Flow IAT Min","Fwd IAT Total","Fwd IAT Mean","Fwd IAT Std","Fwd IAT Max","Fwd IAT Min","Bwd IAT Total","Bwd IAT Mean","Bwd IAT Std","Bwd IAT Max","Bwd IAT Min","Fwd PSH Flags","Bwd PSH Flags","Fwd URG Flags","Bwd URG Flags","Fwd Header Length","Bwd Header Length","Fwd Packets/s","Bwd Packets/s","Min Packet Length","Max Packet Length","Packet Length Mean","Packet Length Std","Packet Length Variance","FIN Flag Count","SYN Flag Count","RST Flag Count","PSH Flag Count","ACK Flag Count","URG Flag Count","CWE Flag Count","ECE Flag Count","Down/Up Ratio","Average Packet Size","Avg Fwd Segment Size","Avg Bwd Segment Size","Fwd Avg Bulk Rate","Bwd Avg Bulk Rate","Subflow Fwd Packets","Subflow Fwd Bytes","Subflow Bwd Packets","Subflow Bwd Bytes","Init_Win_bytes_forward","Init_Win_bytes_backward","act_data_pkt_fwd","min_seg_size_forward","Active Mean","Active Std","Active Max","Active Min","Idle Mean","Idle Std","Idle Max","Idle Min","autoencoder"]
+                columns_to_keep = ["Flow Duration", "Total Fwd Packets", "Total Backward Packets",
+                                   "Total Length of Fwd Packets", "Total Length of Bwd Packets",
+                                   "Fwd Packet Length Max", "Fwd Packet Length Min", "Fwd Packet Length Mean",
+                                   "Fwd Packet Length Std", "Bwd Packet Length Max", "Bwd Packet Length Min",
+                                   "Bwd Packet Length Mean", "Bwd Packet Length Std", "Flow Bytes/s", "Flow Packets/s",
+                                   "Flow IAT Mean", "Flow IAT Std", "Flow IAT Max", "Flow IAT Min", "Fwd IAT Total",
+                                   "Fwd IAT Mean", "Fwd IAT Std", "Fwd IAT Max", "Fwd IAT Min", "Bwd IAT Total",
+                                   "Bwd IAT Mean", "Bwd IAT Std", "Bwd IAT Max", "Bwd IAT Min", "Fwd PSH Flags",
+                                   "Bwd PSH Flags", "Fwd URG Flags", "Bwd URG Flags", "Fwd Header Length",
+                                   "Bwd Header Length", "Fwd Packets/s", "Bwd Packets/s", "Min Packet Length",
+                                   "Max Packet Length", "Packet Length Mean", "Packet Length Std",
+                                   "Packet Length Variance", "FIN Flag Count", "SYN Flag Count", "RST Flag Count",
+                                   "PSH Flag Count", "ACK Flag Count", "URG Flag Count", "CWE Flag Count",
+                                   "ECE Flag Count", "Down/Up Ratio", "Average Packet Size", "Avg Fwd Segment Size",
+                                   "Avg Bwd Segment Size", "Fwd Avg Bulk Rate", "Bwd Avg Bulk Rate",
+                                   "Subflow Fwd Packets", "Subflow Fwd Bytes", "Subflow Bwd Packets",
+                                   "Subflow Bwd Bytes", "Init_Win_bytes_forward", "Init_Win_bytes_backward",
+                                   "act_data_pkt_fwd", "min_seg_size_forward", "Active Mean", "Active Std",
+                                   "Active Max", "Active Min", "Idle Mean", "Idle Std", "Idle Max", "Idle Min",
+                                   "autoencoder"]
                 print(len(columns_to_keep))
                 # keep only the columns in columns_to_keep
                 df_diff = df_diff[columns_to_keep]
@@ -315,7 +332,6 @@ def push_anomalies():
 
 
 def get_interfaces():
-    import netifaces
     addrs = psutil.net_if_addrs()
     # return addrs.keys() as json
     return list(addrs.keys())
@@ -363,5 +379,6 @@ async def websocket_endpoint(websocket: WebSocket):
             push_anomalies()
         )
         await asyncio.sleep(2)
+
 
 print("starting server")
