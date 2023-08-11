@@ -79,6 +79,7 @@ def read_csv_file(interface):
 def read_csv_files():
     # get all csv files in flow_data folder
     csv_files = glob.glob("flow_data/*.csv")
+    csv_files_backup = glob.glob("flow_data/backup/*.csv")
     csv_file_format = "flow_data/interface_flow.csv"
     try:
         df = pd.DataFrame()
@@ -96,8 +97,45 @@ def read_csv_files():
             except Exception as e:
                 # print("Unable to read csv file", e)
                 pass
+
+        # check if csv has over 2000 rows
+        if len(df) > 2000:
+            # for each file in csv
+            # _files, append it to the same file_name in csv_files_backup
+            for csv_file in csv_files:
+                # get interface name by removing flow_data/ and _flow.csv
+                interface = csv_file
+                # read csv file to pandas dataframe
+                df_temp = pd.read_csv(csv_file)
+                # append to csv_files_backup
+                df_temp.to_csv(interface, mode="a", header=False, index=False)
+                # delete csv_file
+                os.remove(csv_file)
+
+            # append df to csv_file_format
+            df.to_csv("interface_flow_backup.csv", mode="a", header=False, index=False)
+
+        # save a dataframe to csv file
+        df.to_csv("interface_flow.csv", index=False)
+
     except Exception as e:
         # raise Exception("Unable to read csv file") from e
+        df = pd.DataFrame()
+        print("Unable to read csv file", e)
+
+    try:
+        # read interface_flow and interface_flow_backup get interface_flow + interface_flow_backup[:x] = 2000
+        df = pd.read_csv("interface_flow.csv")
+        df_backup = pd.read_csv("interface_flow_backup.csv")
+        # get the number of rows in interface_flow
+        df_rows = len(df)
+        # get the number of rows in interface_flow_backup
+        df_backup_rows = len(df_backup)
+        # get the number of rows to be read from interface_flow_backup
+        df_backup_rows_to_read = 2000 - df_rows
+        # get last x rows from interface_flow_backup and add to interface_flow
+        df = pd.concat([df, df_backup.tail(df_backup_rows_to_read)])
+    except Exception as e:
         df = pd.DataFrame()
         print("Unable to read csv file", e)
 
@@ -107,20 +145,38 @@ def read_csv_files():
 def find_anomalities():
     csv_files = glob.glob("flow_data/*.csv")
     try:
-        df = pd.DataFrame()
-        for csv_file in csv_files:
-            try:
-                # read csv file to pandas dataframe
-                df_temp = pd.read_csv(csv_file)
-                interface = csv_file
-                print(interface)
-                # add interface name to column
-                df_temp["interface"] = interface
-                # concat to df
-                df = pd.concat([df, df_temp])
-            except Exception as e:
-                # print("Unable to read csv file", e)
-                pass
+        # df = pd.DataFrame()
+        # for csv_file in csv_files:
+        #     try:
+        #         # read csv file to pandas dataframe
+        #         df_temp = pd.read_csv(csv_file)
+        #         interface = csv_file
+        #         print(interface)
+        #         # add interface name to column
+        #         df_temp["interface"] = interface
+        #         # concat to df
+        #         df = pd.concat([df, df_temp])
+        #     except Exception as e:
+        #         # print("Unable to read csv file", e)
+        #         pass
+
+        # # check if csv has over 2000 rows
+        # if len(df) > 2000:
+        #     # for each file in csv_files, append it to the same file_name in csv_files_backup
+        #     for csv_file in csv_files:
+        #         # get interface name by removing flow_data/ and _flow.csv
+        #         interface = csv_file
+        #         # read csv file to pandas dataframe
+        #         df_temp = pd.read_csv(csv_file)
+        #         # append to csv_files_backup
+        #         df_temp.to_csv(interface, mode="a", header=False, index=False)
+        #         # delete csv_file
+        #         os.remove(csv_file)
+        #
+
+        # read interface_flow and interface_flow_backup get interface_flow + interface_flow_backup[:x] = 2000
+        df = pd.read_csv("interface_flow.csv")
+
         df, df_scaled = create_data(df)
         result = predict_autoencoder(df_scaled)
         outliers = [0 if i == False else 1 for i in result]
