@@ -1,81 +1,3 @@
-# import os
-# from datetime import datetime, timedelta
-# from typing import List
-#
-# import pandas as pd
-# import requests
-# from bson import ObjectId
-# from fastapi import FastAPI, Request
-# from fastapi.middleware.cors import CORSMiddleware
-# from pydantic import BaseModel, Field
-#
-# print("The app is running")
-#
-# # show all columns
-# pd.set_option('display.max_columns', None)
-#
-# app = FastAPI()
-#
-# origins = ["*"]
-#
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=origins,
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
-#
-#
-# # class PyObjectId(ObjectId):
-# #     @classmethod
-# #     def __get_validators__(cls):
-# #         yield cls.validate
-# #
-# #     @classmethod
-# #     def validate(cls, v):
-# #         if not ObjectId.is_valid(v):
-# #             raise ValueError("Invalid objectid")
-# #         return ObjectId(v)
-# #
-# #     @classmethod
-# #     def __modify_schema__(cls, field_schema):
-# #         field_schema.update(type="string")
-#
-#
-# # create a get function to show string
-# def get_string():
-#     return "Hello World"
-#
-# @app.get("/")
-# def read_root():
-#     return {"Hello": "World"}
-#
-#
-# # print csv files add ?amount=10 to get 10 rows
-# @app.get("/csv_file")
-# def read_csv_file(amount: int = 10):
-#     data_path = "flow.csv"
-#     try:
-#         # read csv file to pandas dataframe
-#         df = pd.read_csv(data_path)
-#     except Exception as e:
-#         # raise Exception("Unable to read csv file") from e
-#         df = pd.DataFrame()
-#
-#     # print(df.tail())
-#     # print time
-#     print(datetime.now().strftime("%H:%M:%S"))
-#
-#     # return dataframe as json
-#     return df.tail(amount).to_json(orient="records")
-#
-#
-#
-#
-#
-#
-# # uvicorn main:app --reload
 import asyncio
 import glob
 import os
@@ -199,14 +121,18 @@ def find_anomalities():
             except Exception as e:
                 # print("Unable to read csv file", e)
                 pass
-        df = create_data(df)
-        result = predict_autoencoder(df)
+        df, df_scaled = create_data(df)
+        result = predict_autoencoder(df_scaled)
         outliers = [0 if i == False else 1 for i in result]
 
         # add to df
         df_auto = pd.DataFrame({"autoencoder": outliers})
-        # join df_auto to df
+
+        # get autoencoder column and add to df
         df = df.join(df_auto)
+
+        # join df_auto to df
+        df_scaled = df_scaled.join(df_auto)
 
         # save to csv
         df.to_csv("flow_anomalies.csv", index=False)
@@ -382,3 +308,6 @@ async def websocket_endpoint(websocket: WebSocket):
 
 
 print("starting server")
+
+
+# uvicorn main:app --reload
