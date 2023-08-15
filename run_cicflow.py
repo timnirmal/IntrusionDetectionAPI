@@ -67,21 +67,19 @@ if __name__ == '__main__':
         except OSError:
             print(f"Unable to delete {interface}_flow.csv")
 
+    # Delete the flow.csv files if they exist
+    for interface in interfaces:
+        try:
+            file_path = f"flow_data/backup/{interface}_flow.csv"
+            file_path = file_path.replace("*", "")
+            if os.path.exists(file_path):
+                os.remove(file_path)
+        except OSError:
+            print(f"Unable to delete {interface}_flow.csv")
+
     # delete flow_anomalies.csv if it exists
-    if os.path.exists("flow_anomalies.csv"):
-        os.remove("flow_anomalies.csv")
-
-    # delete flow.csv if it exists
-    if os.path.exists("flow.csv"):
-        os.remove("flow.csv")
-
-    # delete flow_queue.csv if it exists
-    if os.path.exists("flow_queue.csv"):
-        os.remove("flow_queue.csv")
-
-    # delete flow_queue.csv if it exists
-    if os.path.exists("flow_send.csv"):
-        os.remove("flow_send.csv")
+    if os.path.exists("interface_flow.csv"):
+        os.remove("interface_flow.csv")
 
     # Create and start sniffers for each interface
     sniffer_threads = []
