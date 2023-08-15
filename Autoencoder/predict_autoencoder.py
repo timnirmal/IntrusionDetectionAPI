@@ -1,14 +1,6 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
 import tensorflow as tf
-
-import matplotlib.pyplot as plt
-import seaborn as sns
-import random as rn
-from sklearn.preprocessing import MinMaxScaler
-import pickle
-from sklearn.model_selection import train_test_split
-from datetime import datetime
 
 
 def mad_score(points):

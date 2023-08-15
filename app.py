@@ -1,8 +1,6 @@
 import asyncio
 import glob
 import os
-import subprocess
-from random import choice, randint
 
 import pandas as pd
 import psutil

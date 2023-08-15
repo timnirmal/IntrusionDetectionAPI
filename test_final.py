@@ -62,13 +62,11 @@
 #     print("Unable to read csv file", e)
 #
 # print(df.to_json(orient="records"))
-import pandas as pd
 
-from app import get_interfaces, find_anomalities, read_csv_files
+from app import read_csv_files
 
 # find_anomalities()
 read_csv_files()
-
 
 # df = pd.read_csv("flow_data/WiFi_flow.csv")
 #
