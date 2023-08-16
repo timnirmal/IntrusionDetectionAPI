@@ -1,4 +1,3 @@
-import os
 import pickle
 
 import numpy as np
@@ -48,55 +47,27 @@ def predict_autoencoder(df):
 
 def predict_rf(df):
     try:
-        # print current working directory
-        # print(os.getcwd())
-        # print ls
-        # print(os.listdir())
-        # load the model Autoencoder/models/encoder.pkl
-        encoder = pickle.load(open('Autoencoder/models/encoder.pkl', 'rb'))
-        # print(encoder)
-    except Exception as e:
-        print(e)
-
-    try:
-        # print current working directory
-        # print(os.getcwd())
-        # print ls
-        # print(os.listdir())
         # load the model Autoencoder/models/encoder.pkl
         autoencoder = tf.keras.models.load_model('Autoencoder/autoencoder_best_weights.hdf5')
-        # print(autoencoder)
     except Exception as e:
         print(e)
 
     try:
         # load random forest model
         rf_model = pickle.load(open('Autoencoder/models/rf_auto.pkl', 'rb'))
-        # print(rf_model)
     except Exception as e:
         print(e)
 
     try:
-        # load le
+        # load label encoder
         label_encoder = pickle.load(open('Autoencoder/label_encoder.pkl', 'rb'))
     except Exception as e:
         print(e)
 
-
-    # Failed to convert a NumPy array to a Tensor (Unsupported object type int).
-    # fix
-    # df = df.astype('float32')
-
-    # print(autoencoder.summary())
     # get encoder part from autoencoder
     encoder = tf.keras.models.Model(inputs=autoencoder.input, outputs=autoencoder.get_layer('dense_1').output)
     print("Everything loaded successfully")
-    # print(df)
     predictions = encoder.predict(df)
-
-    # # predict on the dataset
-    # predictions = encoder.predict(df)
-    # print(predictions)
 
     # predict with rf
     rf_pred = rf_model.predict(predictions)

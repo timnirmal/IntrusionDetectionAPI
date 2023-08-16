@@ -46,10 +46,6 @@ def run_sniffer(interface, output_file):
 
 if __name__ == '__main__':
     interfaces = get_interfaces()
-    # # keep only WiFi and Ethernet interfaces
-    # interfaces = [interface for interface in interfaces if interface in ['Ethernet', 'WiFi']]
-    # print("Interfaces: ", interfaces)
-    # (['Ethernet', 'Local Area Connection* 1', 'Local Area Connection* 4', 'WiFi', 'Bluetooth Network Connection 2', 'Loopback Pseudo-Interface 1'])
 
     # show list of interfaces
     print("Interfaces: ", get_interfaces())
