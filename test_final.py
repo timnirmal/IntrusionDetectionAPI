@@ -62,11 +62,12 @@
 #     print("Unable to read csv file", e)
 #
 # print(df.to_json(orient="records"))
+from app_functions import get_anomalies, find_anomalities, get_anomaly_count
 
-from app import read_csv_files
-
-# find_anomalities()
-read_csv_files()
+# from app_functions import read_csv_files
+#
+# # find_anomalities()
+# read_csv_files()
 
 # df = pd.read_csv("flow_data/WiFi_flow.csv")
 #
@@ -118,3 +119,9 @@ read_csv_files()
 #
 # print(len(a))
 # print(len(b))
+
+# df = get_anomalies()
+
+get_anomaly_count()
+
+# find_anomalities()
